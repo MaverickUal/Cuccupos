@@ -1,0 +1,20 @@
+{
+  "name": "cuccupos",
+  "version": "1.0.0",
+  "description": "CuccuPOS - React customer ordering + admin dashboard (Firebase + PayMongo)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "node server.js",
+    "client": "npm --prefix client run dev",
+    "install:all": "npm install && npm --prefix client install",
+    "build": "npm --prefix client run build",
+    "seed": "node scripts/seed.js",
+    "make-admin": "node scripts/make-admin.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.1.0"
+  }
+}
