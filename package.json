@@ -15,6 +15,10 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+<<<<<<< HEAD
+=======
+    "firebase": "^13.0.0",
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
     "firebase-admin": "^12.1.0"
   }
 }

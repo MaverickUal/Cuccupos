@@ -1,11 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useOutletContext, useSearchParams } from "react-router-dom";
+<<<<<<< HEAD
 import { Minus, Plus, Search, X } from "lucide-react";
 import { toast } from "sonner";
 import { createOrder, subscribeMenu } from "@/lib/db";
 import { startCheckout, verifyPayment } from "@/lib/payments";
 import { useAuth } from "@/lib/auth";
 import { CATEGORIES, peso } from "@/lib/format";
+=======
+import { addDoc, collection, onSnapshot, serverTimestamp } from "firebase/firestore";
+import { Minus, Plus, Search, X } from "lucide-react";
+import { toast } from "sonner";
+import { db } from "@/firebase";
+import { useAuth } from "@/AuthContext";
+import { api } from "@/api";
+import { CATEGORIES, peso } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -33,7 +43,11 @@ export default function Order() {
   const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   useEffect(() => subscribeMenu(setMenu), []);
+=======
+  useEffect(() => onSnapshot(collection(db, "menu"), (s) => setMenu(s.docs.map((d) => ({ id: d.id, ...d.data() })))), []);
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 
   // Returning from PayMongo
   useEffect(() => {
@@ -45,7 +59,11 @@ export default function Order() {
     (async () => {
       for (let i = 0; i < 4; i++) {
         try {
+<<<<<<< HEAD
           const r = await verifyPayment(paid);
+=======
+          const r = await api("/api/verify-payment", { orderId: paid });
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
           if (r.status !== "pending_payment") {
             toast.success("Payment received! Your order was sent to the kitchen.");
             return navigate("/shop/history");
@@ -83,8 +101,22 @@ export default function Order() {
     if (!cart.length || busy) return;
     setBusy(true);
     try {
+<<<<<<< HEAD
       const orderId = await createOrder({ user, profile, items: cart, total });
       const checkoutUrl = await startCheckout(orderId);
+=======
+      const ref = await addDoc(collection(db, "orders"), {
+        uid: user.uid,
+        customerName: profile?.name || user.email,
+        email: user.email,
+        items: cart.map((x) => ({ id: x.id, name: x.name, price: x.price, qty: x.qty })),
+        total,
+        status: "pending_payment",
+        paymentStatus: "unpaid",
+        createdAt: serverTimestamp(),
+      });
+      const { checkoutUrl } = await api("/api/checkout", { orderId: ref.id });
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
       setCart([]);
       window.location.href = checkoutUrl;
     } catch (e) {

@@ -13,9 +13,13 @@ const APP_URL = (process.env.APP_URL || `http://localhost:${PORT}`).replace(/\/$
 const PM_KEY = process.env.PAYMONGO_SECRET_KEY;
 const PM_AUTH = "Basic " + Buffer.from(`${PM_KEY}:`).toString("base64");
 const PAID_STATUSES = ["paid", "preparing", "ready", "completed"];
+<<<<<<< HEAD
 // Testing only: skips PayMongo and marks orders paid immediately. Never enable in production.
 const MOCK_PAYMENTS = process.env.MOCK_PAYMENTS === "true";
 
+=======
+const MOCK_PAYMENTS = process.env.MOCK_PAYMENTS === "true";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 // ---------- helpers ----------
 async function paymongo(method, endpoint, body) {
   const res = await fetch(`https://api.paymongo.com/v1${endpoint}`, {
@@ -122,12 +126,21 @@ app.post("/api/checkout", requireUser, async (req, res) => {
       lineItems.push({ currency: "PHP", amount: Math.round(price * 100), name: m.data().name, quantity: qty });
     }
     await ref.update({ items: verifiedItems, total, updatedAt: admin.firestore.FieldValue.serverTimestamp() });
+<<<<<<< HEAD
 
     if (MOCK_PAYMENTS) {
       await markPaid(orderId, "mock_session", { method: "mock" });
       return res.json({ checkoutUrl: `${APP_URL}/shop?paid=${orderId}` });
     }
 
+=======
+   
+     if (MOCK_PAYMENTS) {
+     await markPaid(orderId, "mock_session", { method: "mock" });
+     return res.json({ checkoutUrl: `${APP_URL}/shop?paid=${orderId}` });
+    }
+    
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
     const session = await paymongo("POST", "/checkout_sessions", {
       data: {
         attributes: {

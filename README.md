@@ -37,6 +37,7 @@ Sign out and back in; you'll land on `/admin`.
 
 ## UI stack
 Tailwind CSS v3 + shadcn/ui-style components (Radix primitives, class-variance-authority, lucide icons, sonner toasts) in `client/src/components/ui`. The olive/cream theme lives in CSS variables at the top of `client/src/index.css`, so you can re-theme in one place. The `@` import alias and `cn()` helper are already set up, so you can add more shadcn components later.
+<<<<<<< HEAD
 
 ## Code layout (client/src)
 - `lib/firebase.js` – Firebase setup
@@ -46,3 +47,5 @@ Tailwind CSS v3 + shadcn/ui-style components (Radix primitives, class-variance-a
 - `lib/format.js` – peso/date formatting, CSV export, status labels
 - `lib/utils.js` – `cn()` class helper for shadcn
 - `components/` and `pages/` – UI only; they call functions from `lib`
+=======
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d

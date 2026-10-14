@@ -1,5 +1,9 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { useAuth } from "@/lib/auth";
+=======
+import { useAuth } from "@/AuthContext";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

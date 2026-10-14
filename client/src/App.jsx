@@ -1,5 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+<<<<<<< HEAD
 import { useAuth } from "@/lib/auth";
+=======
+import { useAuth } from "./AuthContext";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import Auth from "./pages/Auth";
 import CustomerLayout from "./pages/customer/CustomerLayout";
 import Order from "./pages/customer/Order";

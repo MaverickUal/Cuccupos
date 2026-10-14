@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
+<<<<<<< HEAD
 import { Plus } from "lucide-react";
 import { deleteMenuItem, saveMenuItem, setMenuAvailable } from "@/lib/db";
 import { CATEGORIES, peso } from "@/lib/format";
+=======
+import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { Plus } from "lucide-react";
+import { db } from "@/firebase";
+import { CATEGORIES, peso } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,11 +28,22 @@ export default function MenuManager() {
 
   const save = async (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     await saveMenuItem(form);
     setForm(null);
   };
   const toggle = (m) => setMenuAvailable(m.id, m.available === false);
   const del = (m) => confirm(`Delete ${m.name}?`) && deleteMenuItem(m.id);
+=======
+    const { id, ...data } = form;
+    data.price = Number(data.price);
+    if (id) await updateDoc(doc(db, "menu", id), data);
+    else await addDoc(collection(db, "menu"), data);
+    setForm(null);
+  };
+  const toggle = (m) => updateDoc(doc(db, "menu", m.id), { available: m.available === false });
+  const del = (m) => confirm(`Delete ${m.name}?`) && deleteDoc(doc(db, "menu", m.id));
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 
   const sorted = [...menu].sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
   return (

@@ -1,8 +1,15 @@
 import { useMemo, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+<<<<<<< HEAD
 import { Search } from "lucide-react";
 import { setOrderStatus } from "@/lib/db";
 import { fmtDateTime, peso, shortId, STATUS_LABEL } from "@/lib/format";
+=======
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import { Search } from "lucide-react";
+import { db } from "@/firebase";
+import { fmtDateTime, peso, shortId, STATUS_LABEL } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,7 +38,11 @@ export default function Orders() {
     [orders, status, q]
   );
 
+<<<<<<< HEAD
   const setTo = (o, s) => setOrderStatus(o.id, s);
+=======
+  const setTo = (o, s) => updateDoc(doc(db, "orders", o.id), { status: s, updatedAt: serverTimestamp() });
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
   const cancel = (o) => confirm(`Cancel order #${shortId(o.id)}? Refunds must be done in the PayMongo dashboard.`) && setTo(o, "cancelled");
 
   return (

@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { toast } from "sonner";
 import { subscribeUserOrders } from "@/lib/db";
 import { startCheckout } from "@/lib/payments";
 import { useAuth } from "@/lib/auth";
 import { fmtDateTime, peso, shortId } from "@/lib/format";
+=======
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { toast } from "sonner";
+import { db } from "@/firebase";
+import { useAuth } from "@/AuthContext";
+import { api } from "@/api";
+import { fmtDateTime, peso, shortId, toDate } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,11 +21,29 @@ export default function History() {
   const { user } = useAuth();
   const [orders, setOrders] = useState(null);
 
+<<<<<<< HEAD
   useEffect(() => subscribeUserOrders(user.uid, setOrders), [user.uid]);
 
   const payNow = async (id) => {
     try {
       const checkoutUrl = await startCheckout(id);
+=======
+  useEffect(
+    () =>
+      onSnapshot(query(collection(db, "orders"), where("uid", "==", user.uid)), (s) =>
+        setOrders(
+          s.docs
+            .map((d) => ({ id: d.id, ...d.data() }))
+            .sort((a, b) => (toDate(b.createdAt)?.getTime() || Date.now()) - (toDate(a.createdAt)?.getTime() || Date.now()))
+        )
+      ),
+    [user.uid]
+  );
+
+  const payNow = async (id) => {
+    try {
+      const { checkoutUrl } = await api("/api/checkout", { orderId: id });
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
       window.location.href = checkoutUrl;
     } catch (e) {
       toast.error(e.message);

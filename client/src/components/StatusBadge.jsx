@@ -1,6 +1,10 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+<<<<<<< HEAD
 import { STATUS_LABEL } from "@/lib/format";
+=======
+import { STATUS_LABEL } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 
 const STYLE = {
   pending_payment: "border-transparent bg-neutral-200 text-neutral-600",

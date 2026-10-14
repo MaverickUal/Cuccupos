@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { CupSoda, FileText, LayoutDashboard, Receipt, Users, Wrench } from "lucide-react";
@@ -7,17 +8,50 @@ import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import { Card } from "@/components/ui/card";
 import { fmtDateTime, shortId } from "@/lib/format";
+=======
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { collection, onSnapshot } from "firebase/firestore";
+import { CupSoda, FileText, LayoutDashboard, Receipt, Users, Wrench } from "lucide-react";
+import { toast } from "sonner";
+import { db } from "@/firebase";
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
+import { Card } from "@/components/ui/card";
+import { fmtDateTime, shortId, toDate } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 
 export default function AdminLayout() {
   const [orders, setOrders] = useState([]);
   const [menu, setMenu] = useState([]);
   const [users, setUsers] = useState([]);
   const [notifOpen, setNotifOpen] = useState(false);
+<<<<<<< HEAD
 
   useEffect(() => {
     const u1 = subscribeOrders(setOrders, (id) => toast.success(`New paid order #${shortId(id)}`));
     const u2 = subscribeMenu(setMenu);
     const u3 = subscribeUsers(setUsers);
+=======
+  const first = useRef(true);
+
+  useEffect(() => {
+    const u1 = onSnapshot(collection(db, "orders"), (s) => {
+      if (!first.current) {
+        s.docChanges().forEach((c) => {
+          if (c.type === "modified" && c.doc.data().status === "paid") toast.success(`New paid order #${shortId(c.doc.id)}`);
+        });
+      }
+      first.current = false;
+      setOrders(
+        s.docs
+          .map((d) => ({ id: d.id, ...d.data() }))
+          .sort((a, b) => (toDate(b.createdAt)?.getTime() || Date.now()) - (toDate(a.createdAt)?.getTime() || Date.now()))
+      );
+    });
+    const u2 = onSnapshot(collection(db, "menu"), (s) => setMenu(s.docs.map((d) => ({ id: d.id, ...d.data() }))));
+    const u3 = onSnapshot(collection(db, "users"), (s) => setUsers(s.docs.map((d) => ({ id: d.id, ...d.data() }))));
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
     return () => { u1(); u2(); u3(); };
   }, []);
 

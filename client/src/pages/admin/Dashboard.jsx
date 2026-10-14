@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import { useOutletContext } from "react-router-dom";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+<<<<<<< HEAD
 import { dayKey, fmtDateTime, PAID_STATUSES, peso, shortId, toDate } from "@/lib/format";
+=======
+import { dayKey, fmtDateTime, PAID_STATUSES, peso, shortId, toDate } from "@/utils";
+>>>>>>> 3f8021b6a239b887bd48f7170589b29b907ef28d
 import StatusBadge from "@/components/StatusBadge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
